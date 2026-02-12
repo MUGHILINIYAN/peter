@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,39 +6,27 @@
 <style>
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #ff9a9e, #fad0c4);
     overflow: hidden;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-}
-
-.container {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    padding: 30px 20px;
-    border-radius: 20px;
-    text-align: center;
-    width: 90%;
-    max-width: 450px;
-    max-height: 90vh;       /* container height limit */
-    overflow-y: auto;       /* scroll if needed */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    flex-direction: column;
     color: #fff;
-    position: relative;
-    z-index: 10;
+    text-align: center;
 }
 
 h1 {
     margin-bottom: 20px;
-    min-height: 50px;
-    font-size: 1.5em;
+    font-size: 2em;
 }
 
 button {
@@ -49,7 +34,7 @@ button {
     margin: 10px 5px;
     border: none;
     border-radius: 25px;
-    font-size: 15px;
+    font-size: 18px;
     cursor: pointer;
     transition: 0.3s;
 }
@@ -72,13 +57,14 @@ button {
 
 input {
     padding: 12px;
-    width: 100%;          /* fits container */
-    max-width: 100%;
+    width: 300px;
+    max-width: 90%;
     border-radius: 20px;
     border: none;
     outline: none;
     margin-top: 15px;
     text-align: center;
+    font-size: 16px;
 }
 
 .hidden {
@@ -121,53 +107,49 @@ input {
 
 <audio id="bgMusic" src="music.mp3" autoplay loop></audio>
 
-<div class="container">
+<!-- Page 1: Valentine -->
+<div id="page1">
+    <h1 class="typing" id="valentineText"></h1>
+    <button class="yes" onclick="nextPage()">Yes 💖</button>
+    <button class="no" id="noBtn">No 😜</button>
+    <p id="noMessage"></p>
+</div>
 
-    <!-- Page 1: Valentine -->
-    <div id="page1">
-        <h1 class="typing" id="valentineText"></h1>
-        <button class="yes" onclick="nextPage()">Yes 💖</button>
-        <button class="no" id="noBtn">No 😜</button>
-        <p id="noMessage"></p>
+<!-- Page 2: Question 1 -->
+<div id="page2" class="hidden">
+    <h1 class="typing" id="q1Text"></h1>
+    <input type="text" id="q1" placeholder="Type your answer...">
+    <br><br>
+    <button class="yes" onclick="checkAnswer(1)">Next ➡</button>
+</div>
+
+<!-- Page 3: Question 2 -->
+<div id="page3" class="hidden">
+    <h1 class="typing" id="q2Text"></h1>
+    <input type="text" id="q2" placeholder="Type your answer...">
+    <br><br>
+    <button class="yes" onclick="checkAnswer(2)">Next ➡</button>
+</div>
+
+<!-- Page 4: Question 3 (Option buttons) -->
+<div id="page4" class="hidden">
+    <h1 class="typing" id="q3Text"></h1>
+    <div style="margin-top:20px;">
+        <button class="yes" onclick="nextPage()">Me ❤️</button>
+        <button class="yes" onclick="nextPage()">Peter 😜</button>
+        <button class="yes" onclick="nextPage()">Option A 💕</button>
     </div>
+</div>
 
-    <!-- Page 2: Question 1 -->
-    <div id="page2" class="hidden">
-        <h1 class="typing" id="q1Text"></h1>
-        <input type="text" id="q1" placeholder="Type your answer...">
-        <br><br>
-        <button class="yes" onclick="checkAnswer(1)">Next ➡</button>
-    </div>
-
-    <!-- Page 3: Question 2 -->
-    <div id="page3" class="hidden">
-        <h1 class="typing" id="q2Text"></h1>
-        <input type="text" id="q2" placeholder="Type your answer...">
-        <br><br>
-        <button class="yes" onclick="checkAnswer(2)">Next ➡</button>
-    </div>
-
-    <!-- Page 4: Question 3 (Option buttons) -->
-    <div id="page4" class="hidden">
-        <h1 class="typing" id="q3Text"></h1>
-        <div style="margin-top:20px;">
-            <button class="yes" onclick="nextPage()">Me ❤️</button>
-            <button class="yes" onclick="nextPage()">Peter 😜</button>
-            <button class="yes" onclick="nextPage()">Option A 💕</button>
-        </div>
-    </div>
-
-    <!-- Page 5: Final message -->
-    <div id="page5" class="hidden">
-        <h1 class="typing" id="finalText"></h1>
-        <p>
-            In the end, it's not about the answers…<br>
-            Love is what matters most 💕
-        </p>
-        <br>
-        <button class="yes" onclick="showHearts()">Show Hearts 🎉</button>
-    </div>
-
+<!-- Page 5: Final message -->
+<div id="page5" class="hidden">
+    <h1 class="typing" id="finalText"></h1>
+    <p>
+        In the end, it's not about the answers…<br>
+        Love is what matters most 💕
+    </p>
+    <br>
+    <button class="yes" onclick="showHearts()">Show Hearts 🎉</button>
 </div>
 
 <script>
@@ -239,7 +221,7 @@ setInterval(() => {
     const emoji = document.createElement("div");
     emoji.classList.add("emoji");
     emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    emoji.style.left = Math.random() * (window.innerWidth - 30) + "px"; // stay inside viewport
+    emoji.style.left = Math.random() * (window.innerWidth - 30) + "px";
     emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
     document.body.appendChild(emoji);
     setTimeout(() => emoji.remove(), 6000);
@@ -252,7 +234,7 @@ function showHearts() {
         heart.classList.add("heart");
         const heartTypes = ["❤️","💖","💕","💘","💝"];
         heart.innerText = heartTypes[Math.floor(Math.random()*heartTypes.length)];
-        heart.style.left = Math.random()*(window.innerWidth-30) + "px"; // stay inside viewport
+        heart.style.left = Math.random()*(window.innerWidth-30) + "px";
         heart.style.animationDuration = (Math.random()*2+2) + "s";
         heart.style.fontSize = (Math.random()*30 + 20) + "px";
         document.body.appendChild(heart);
