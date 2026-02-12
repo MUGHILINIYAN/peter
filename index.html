@@ -31,6 +31,7 @@
 
     h1 {
         margin-bottom: 20px;
+        min-height: 50px;
     }
 
     button {
@@ -46,10 +47,11 @@
     .yes {
         background: #ff4b7d;
         color: white;
+        box-shadow: 0 5px 15px rgba(255, 75, 125, 0.4);
     }
-
     .yes:hover {
         background: #ff2e63;
+        transform: scale(1.1);
     }
 
     .no {
@@ -80,12 +82,11 @@
     }
 
     @keyframes float {
-        0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-        50% { opacity: 0.8; }
-        100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        0% { transform: translateY(100vh) scale(0.5); opacity:0; }
+        50% { opacity:0.8; }
+        100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
     }
 
-    /* Heart shower */
     .heart {
         position: absolute;
         font-size: 24px;
@@ -96,15 +97,24 @@
         0% { transform: translateY(0) scale(0.5); opacity:1; }
         100% { transform: translateY(100vh) scale(1.5); opacity:0; }
     }
+
+    .typing {
+        display: inline-block;
+        border-right: 2px solid rgba(255,255,255,0.8);
+        white-space: nowrap;
+        overflow: hidden;
+    }
 </style>
 </head>
 <body>
+
+<audio id="bgMusic" src="music.mp3" autoplay loop></audio>
 
 <div class="container">
 
     <!-- Page 1: Valentine -->
     <div id="page1">
-        <h1>Will you be my Valentine? ❤️</h1>
+        <h1 class="typing" id="valentineText"></h1>
         <button class="yes" onclick="nextPage()">Yes 💖</button>
         <button class="no" id="noBtn">No 😜</button>
         <p id="noMessage"></p>
@@ -112,38 +122,36 @@
 
     <!-- Page 2: Question 1 -->
     <div id="page2" class="hidden">
-        <h1>Question 1 💕</h1>
-        <p>What is our first date place 🤔?</p>
-        <input type="text" id="q1">
+        <h1 class="typing" id="q1Text"></h1>
+        <input type="text" id="q1" placeholder="Type your answer...">
         <br><br>
         <button class="yes" onclick="nextPage()">Next ➡</button>
     </div>
 
     <!-- Page 3: Question 2 -->
     <div id="page3" class="hidden">
-        <h1>Question 2 🎁</h1>
-        <p>What is the first gift I gave you 🧐?</p>
-        <input type="text" id="q2">
+        <h1 class="typing" id="q2Text"></h1>
+        <input type="text" id="q2" placeholder="Type your answer...">
         <br><br>
         <button class="yes" onclick="nextPage()">Next ➡</button>
     </div>
 
-    <!-- Page 4: Question 3 -->
+    <!-- Page 4: Question 3 (Option buttons) -->
     <div id="page4" class="hidden">
-        <h1>Question 3 😏</h1>
-        <p>Who u like most… Me or your Dad 👉🏻👈🏻?</p>
-        <input type="text" id="q3">
-        <br><br>
-        <button class="yes" onclick="nextPage()">Finish ❤️</button>
+        <h1 class="typing" id="q3Text"></h1>
+        <div style="margin-top:20px;">
+            <button class="yes" onclick="nextPage()">Me ❤️</button>
+            <button class="yes" onclick="nextPage()">Peter 😜</button>
+            <button class="yes" onclick="nextPage()">Option A 💕</button>
+        </div>
     </div>
 
     <!-- Page 5: Final message -->
     <div id="page5" class="hidden">
-        <h1>💖 Love Always 💖</h1>
+        <h1 class="typing" id="finalText"></h1>
         <p>
-            No matter the answers…<br>
-            In the end, it's always about love 💕<br>
-            I love you forever ❤️
+            In the end, it's not about the answers…<br>
+            Love is what matters most 💕
         </p>
         <br>
         <button class="yes" onclick="showHearts()">Show Hearts 🎉</button>
@@ -154,10 +162,39 @@
 <script>
     let currentPage = 1;
 
+    // Typing effect function
+    function typeText(element, text, speed=50) {
+        let i=0;
+        element.innerHTML = '';
+        let interval = setInterval(() => {
+            if(i<text.length){
+                element.innerHTML += text[i];
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, speed);
+    }
+
+    // Page texts
+    typeText(document.getElementById("valentineText"), "Will you be my Valentine, YOUR_GIRLFRIEND_NAME? ❤️");
+
+    const qTexts = [
+        "What is our first date place 🤔?",
+        "What is the first gift I gave you 🧐?",
+        "Who u like most… Me or your Dad 👉🏻👈🏻?"
+    ];
+    const finalMsg = "Love always wins, YOUR_GIRLFRIEND_NAME 💖";
+
     function nextPage() {
         document.getElementById("page" + currentPage).classList.add("hidden");
         currentPage++;
         document.getElementById("page" + currentPage).classList.remove("hidden");
+
+        if(currentPage===2) typeText(document.getElementById("q1Text"), qTexts[0]);
+        if(currentPage===3) typeText(document.getElementById("q2Text"), qTexts[1]);
+        if(currentPage===4) typeText(document.getElementById("q3Text"), qTexts[2]);
+        if(currentPage===5) typeText(document.getElementById("finalText"), finalMsg);
     }
 
     // No button behavior
@@ -188,15 +225,16 @@
 
     // Heart shower on final click
     function showHearts() {
-        for (let i = 0; i < 100; i++) {
+        for (let i=0; i<150; i++) {
             const heart = document.createElement("div");
             heart.classList.add("heart");
-            heart.innerText = "❤️";
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
-            heart.style.fontSize = (Math.random()*20 + 20) + "px";
+            const heartTypes = ["❤️","💖","💕","💘","💝"];
+            heart.innerText = heartTypes[Math.floor(Math.random()*heartTypes.length)];
+            heart.style.left = Math.random()*100 + "vw";
+            heart.style.animationDuration = (Math.random()*2+2) + "s";
+            heart.style.fontSize = (Math.random()*30 + 20) + "px";
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 3000);
+            setTimeout(()=>heart.remove(),3000);
         }
     }
 </script>
