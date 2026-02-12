@@ -1,109 +1,120 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Valentine Gift 💖</title>
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    .container {
-        background: rgba(300,300,300,0.2);
-        backdrop-filter: blur(10px);
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        width: 90%;
-        max-width: 500px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        color: #fff;
-        position: relative;
-        z-index: 10;
-    }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    h1 {
-        margin-bottom: 20px;
-        min-height: 50px;
-    }
+.container {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;       /* container height limit */
+    overflow-y: auto;       /* scroll if needed */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    color: #fff;
+    position: relative;
+    z-index: 10;
+}
 
-    button {
-        padding: 12px 25px;
-        margin: 10px;
-        border: none;
-        border-radius: 25px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+h1 {
+    margin-bottom: 20px;
+    min-height: 50px;
+    font-size: 1.5em;
+}
 
-    .yes {
-        background: #ff4b7d;
-        color: white;
-        box-shadow: 0 5px 15px rgba(255, 75, 125, 0.4);
-    }
-    .yes:hover {
-        background: #ff2e63;
-        transform: scale(1.1);
-    }
+button {
+    padding: 12px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
 
-    .no {
-        background: #444;
-        color: white;
-        position: relative;
-    }
+.yes {
+    background: #ff4b7d;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 75, 125, 0.4);
+}
+.yes:hover {
+    background: #ff2e63;
+    transform: scale(1.1);
+}
 
-    input {
-        padding: 12px;
-        width: 80%;
-        border-radius: 20px;
-        border: none;
-        outline: none;
-        margin-top: 15px;
-        text-align: center;
-    }
+.no {
+    background: #444;
+    color: white;
+    position: relative;
+}
 
-    .hidden {
-        display: none;
-    }
+input {
+    padding: 12px;
+    width: 100%;          /* fits container */
+    max-width: 100%;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    margin-top: 15px;
+    text-align: center;
+}
 
-    .emoji {
-        position: absolute;
-        font-size: 24px;
-        animation: float 6s linear infinite;
-        opacity: 0.7;
-    }
+.hidden {
+    display: none;
+}
 
-    @keyframes float {
-        0% { transform: translateY(100vh) scale(0.5); opacity:0; }
-        50% { opacity:0.8; }
-        100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
-    }
+.emoji {
+    position: absolute;
+    font-size: 24px;
+    animation: float 6s linear infinite;
+    opacity: 0.7;
+}
 
-    .heart {
-        position: absolute;
-        font-size: 24px;
-        animation: fall 3s linear forwards;
-    }
+@keyframes float {
+    0% { transform: translateY(100vh) scale(0.5); opacity:0; }
+    50% { opacity:0.8; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+}
 
-    @keyframes fall {
-        0% { transform: translateY(0) scale(0.5); opacity:1; }
-        100% { transform: translateY(100vh) scale(1.5); opacity:0; }
-    }
+.heart {
+    position: absolute;
+    font-size: 24px;
+    animation: fall 3s linear forwards;
+}
 
-    .typing {
-        display: inline-block;
-        border-right: 2px solid rgba(255,255,255,0.8);
-        white-space: nowrap;
-        overflow: hidden;
-    }
+@keyframes fall {
+    0% { transform: translateY(0) scale(0.5); opacity:1; }
+    100% { transform: translateY(100vh) scale(1.5); opacity:0; }
+}
+
+.typing {
+    display: inline-block;
+    border-right: 2px solid rgba(255,255,255,0.8);
+    white-space: nowrap;
+    overflow: hidden;
+}
 </style>
 </head>
 <body>
@@ -160,94 +171,94 @@
 </div>
 
 <script>
-    let currentPage = 1;
+let currentPage = 1;
 
-    // Typing effect function
-    function typeText(element, text, speed=50) {
-        let i=0;
-        element.innerHTML = '';
-        let interval = setInterval(() => {
-            if(i<text.length){
-                element.innerHTML += text[i];
-                i++;
-            } else {
-                clearInterval(interval);
-            }
-        }, speed);
-    }
-
-    // Page texts
-    typeText(document.getElementById("valentineText"), "Hey Lakshaya, will you be my Valentine? ❤️");
-
-    const qTexts = [
-        "What is our first date place 🤔?",
-        "What is the first gift I gave you 🧐?",
-        "Who u like most… Me or your Dad 👉🏻👈🏻?"
-    ];
-    const finalMsg = "Love always wins, Lakshaya 💖";
-
-    function nextPage() {
-        document.getElementById("page" + currentPage).classList.add("hidden");
-        currentPage++;
-        document.getElementById("page" + currentPage).classList.remove("hidden");
-
-        if(currentPage===2) typeText(document.getElementById("q1Text"), qTexts[0]);
-        if(currentPage===3) typeText(document.getElementById("q2Text"), qTexts[1]);
-        if(currentPage===4) typeText(document.getElementById("q3Text"), qTexts[2]);
-        if(currentPage===5) typeText(document.getElementById("finalText"), finalMsg);
-    }
-
-    // Check input answer
-    function checkAnswer(pageNum) {
-        const inputId = pageNum===1 ? "q1" : "q2";
-        const value = document.getElementById(inputId).value.trim();
-        if(value==="") {
-            alert("Please answer before proceeding 💕");
-            return;
+// Typing effect function
+function typeText(element, text, speed=50) {
+    let i=0;
+    element.innerHTML = '';
+    let interval = setInterval(() => {
+        if(i<text.length){
+            element.innerHTML += text[i];
+            i++;
+        } else {
+            clearInterval(interval);
         }
-        nextPage();
+    }, speed);
+}
+
+// Page texts
+typeText(document.getElementById("valentineText"), "Hey Lakshaya, will you be my Valentine? ❤️");
+
+const qTexts = [
+    "What is our first date place 🤔?",
+    "What is the first gift I gave you 🧐?",
+    "Who u like most… Me or your Dad 👉🏻👈🏻?"
+];
+const finalMsg = "Love always wins, Lakshaya 💖";
+
+function nextPage() {
+    document.getElementById("page" + currentPage).classList.add("hidden");
+    currentPage++;
+    document.getElementById("page" + currentPage).classList.remove("hidden");
+
+    if(currentPage===2) typeText(document.getElementById("q1Text"), qTexts[0]);
+    if(currentPage===3) typeText(document.getElementById("q2Text"), qTexts[1]);
+    if(currentPage===4) typeText(document.getElementById("q3Text"), qTexts[2]);
+    if(currentPage===5) typeText(document.getElementById("finalText"), finalMsg);
+}
+
+// Check input answer
+function checkAnswer(pageNum) {
+    const inputId = pageNum===1 ? "q1" : "q2";
+    const value = document.getElementById(inputId).value.trim();
+    if(value==="") {
+        alert("Please answer before proceeding 💕");
+        return;
     }
+    nextPage();
+}
 
-    // No button behavior
-    const noBtn = document.getElementById("noBtn");
-    const noMessage = document.getElementById("noMessage");
+// No button behavior
+const noBtn = document.getElementById("noBtn");
+const noMessage = document.getElementById("noMessage");
 
-    noBtn.addEventListener("mouseover", () => {
-        const x = Math.random() * 200 - 100;
-        const y = Math.random() * 100 - 50;
-        noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 100 - 50;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
 
-    noBtn.addEventListener("click", () => {
-        noMessage.innerText = "😜 You are not allowed to click NO!";
-    });
+noBtn.addEventListener("click", () => {
+    noMessage.innerText = "😜 You are not allowed to click NO!";
+});
 
-    // Floating emojis
-    const emojis = ["💖","❤️","😍","🥰","💕","💘"];
-    setInterval(() => {
-        const emoji = document.createElement("div");
-        emoji.classList.add("emoji");
-        emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-        emoji.style.left = Math.random() * 100 + "vw";
-        emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.body.appendChild(emoji);
-        setTimeout(() => emoji.remove(), 6000);
-    }, 500);
+// Floating emojis
+const emojis = ["💖","❤️","😍","🥰","💕","💘"];
+setInterval(() => {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    emoji.style.left = Math.random() * (window.innerWidth - 30) + "px"; // stay inside viewport
+    emoji.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 6000);
+}, 500);
 
-    // Heart shower on final click
-    function showHearts() {
-        for (let i=0; i<150; i++) {
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            const heartTypes = ["❤️","💖","💕","💘","💝"];
-            heart.innerText = heartTypes[Math.floor(Math.random()*heartTypes.length)];
-            heart.style.left = Math.random()*100 + "vw";
-            heart.style.animationDuration = (Math.random()*2+2) + "s";
-            heart.style.fontSize = (Math.random()*30 + 20) + "px";
-            document.body.appendChild(heart);
-            setTimeout(()=>heart.remove(),3000);
-        }
+// Heart shower on final click
+function showHearts() {
+    for (let i=0; i<150; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        const heartTypes = ["❤️","💖","💕","💘","💝"];
+        heart.innerText = heartTypes[Math.floor(Math.random()*heartTypes.length)];
+        heart.style.left = Math.random()*(window.innerWidth-30) + "px"; // stay inside viewport
+        heart.style.animationDuration = (Math.random()*2+2) + "s";
+        heart.style.fontSize = (Math.random()*30 + 20) + "px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),3000);
     }
+}
 </script>
 
 </body>
